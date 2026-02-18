@@ -61,3 +61,13 @@
     font-family: 'Sora', sans-serif;
   }
 }
+
+@layer utilities {
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+}

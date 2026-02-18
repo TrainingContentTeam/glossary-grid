@@ -12,7 +12,8 @@ const GlossaryCard = ({ term }: GlossaryCardProps) => {
 
   return (
     <div
-      className="perspective-[1000px] cursor-pointer h-full"
+      className="cursor-pointer h-full"
+      style={{ perspective: "1000px" }}
       onClick={() => setFlipped((f) => !f)}
     >
       <div
@@ -29,9 +30,9 @@ const GlossaryCard = ({ term }: GlossaryCardProps) => {
         </div>
 
         {/* Back */}
-        <div className="absolute inset-0 backface-hidden [transform:rotateY(180deg)] rounded-xl bg-card border border-border/30 flex flex-col p-5 shadow-lg overflow-y-auto">
-          <div className="flex items-start justify-between mb-3">
-            <h4 className="text-sm font-semibold text-accent uppercase tracking-wider font-['Sora']">
+        <div className="absolute inset-0 backface-hidden [transform:rotateY(180deg)] rounded-xl bg-card border border-border/30 flex flex-col p-4 shadow-lg overflow-hidden">
+          <div className="flex items-start justify-between mb-2">
+            <h4 className="text-xs font-bold text-primary-foreground uppercase tracking-wider font-['Sora']">
               {term.term}
             </h4>
             <button
@@ -39,13 +40,13 @@ const GlossaryCard = ({ term }: GlossaryCardProps) => {
                 e.stopPropagation();
                 setFlipped(false);
               }}
-              className="text-muted-foreground hover:text-foreground transition-colors shrink-0 ml-2"
+              className="text-primary-foreground/70 hover:text-primary-foreground transition-colors shrink-0 ml-2"
               aria-label="Close definition"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
-          <p className="text-sm text-card-foreground/90 leading-relaxed font-['Roboto'] whitespace-pre-line">
+          <p className="text-xs text-primary-foreground/90 leading-relaxed font-['Roboto'] whitespace-pre-line">
             {term.definition}
           </p>
         </div>
