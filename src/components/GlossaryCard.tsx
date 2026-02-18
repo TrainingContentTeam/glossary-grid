@@ -2,6 +2,7 @@ import { useState } from "react";
 import { X, RotateCcw } from "lucide-react";
 import type { GlossaryTerm } from "@/data/glossaryTerms";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface GlossaryCardProps {
   term: GlossaryTerm;
@@ -52,9 +53,11 @@ const GlossaryCard = ({ term, onFlip }: GlossaryCardProps) => {
               <X className="h-3.5 w-3.5" />
             </button>
           </div>
-          <p className="text-xs md:text-sm text-primary-foreground/90 leading-relaxed font-['Roboto'] whitespace-pre-line">
-            {term.definition}
-          </p>
+          <ScrollArea className="flex-1 overflow-auto" onClick={e => e.stopPropagation()}>
+            <p className="text-xs md:text-sm text-primary-foreground/90 leading-relaxed font-['Roboto'] whitespace-pre-line pr-2">
+              {term.definition}
+            </p>
+          </ScrollArea>
         </div>
       </div>
     </div>
