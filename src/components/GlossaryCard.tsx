@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, RotateCcw } from "lucide-react";
 import type { GlossaryTerm } from "@/data/glossaryTerms";
 import { cn } from "@/lib/utils";
 
 interface GlossaryCardProps {
   term: GlossaryTerm;
+  onFlip?: (term: string) => void;
 }
 
-const GlossaryCard = ({ term }: GlossaryCardProps) => {
+const GlossaryCard = ({ term, onFlip }: GlossaryCardProps) => {
   const [flipped, setFlipped] = useState(false);
 
   return (
     <div
       className="cursor-pointer h-full"
       style={{ perspective: "1000px" }}
-      onClick={() => setFlipped((f) => !f)}
+      onClick={() => {
+        const willFlip = !flipped;
+        setFlipped(willFlip);
+        if (willFlip && onFlip) onFlip(term.term);
+      }}
     >
       <div
         className={cn(
@@ -27,6 +32,7 @@ const GlossaryCard = ({ term }: GlossaryCardProps) => {
           <h3 className="text-xl md:text-2xl font-semibold text-primary-foreground text-center leading-tight font-['Sora']">
             {term.term}
           </h3>
+          <RotateCcw className="absolute bottom-3 right-3 h-4 w-4 text-primary-foreground/40" />
         </div>
 
         {/* Back */}
