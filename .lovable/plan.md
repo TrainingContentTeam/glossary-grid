@@ -1,25 +1,41 @@
 
 
-# Fix White Screen on GitHub Pages
+# Convert Glossary Grid to Single-Card Carousel
 
-## Problem
-The app works in Lovable's preview but shows a white screen on GitHub Pages because `BrowserRouter` defaults to matching routes from `/`, while GitHub Pages serves from `/glossary-grid/`. The router can't find a matching route, so nothing renders.
+## What Changes
+Instead of showing all 9 cards in a 3x3 grid, the glossary will display one card at a time with left/right navigation arrows to move between cards. A dot indicator will show which card you're on.
 
-## Solution
+## Technical Details
 
-### File: `src/App.tsx`
+### File: `src/pages/Index.tsx`
+- Remove the 3-column grid layout
+- Import and use the existing `Carousel`, `CarouselContent`, `CarouselItem`, `CarouselPrevious`, `CarouselNext` components from `src/components/ui/carousel.tsx`
+- Wrap each `GlossaryCard` in a `CarouselItem`
+- Add dot indicators below the carousel showing current position (using the Embla carousel API)
+- Center the single card in the 1920x720 viewport
+- Keep the progress bar at the bottom
 
-Add the `basename` prop to `BrowserRouter` so it knows about the `/glossary-grid/` subpath in production:
+### File: `src/components/GlossaryCard.tsx`
+- Adjust card sizing to look good as a single centered card (larger text, more padding)
+- Card will fill the carousel item area with a max-width constraint for readability
 
-**Before:**
-```tsx
-<BrowserRouter>
+### Layout at 1920x720
+```text
++--------------------------------------------------+
+|                                                    |
+|          [<]   +----------------+   [>]           |
+|                |                |                   |
+|                |  Glossary Card |                   |
+|                |   (1 of 9)    |                   |
+|                +----------------+                   |
+|              o o o * o o o o o                      |
+|                                                    |
+|  ================================================  |
+|  Progress: 3 of 9 explored                        |
++--------------------------------------------------+
 ```
 
-**After:**
-```tsx
-<BrowserRouter basename={import.meta.env.BASE_URL}>
-```
-
-`import.meta.env.BASE_URL` is automatically set by Vite from the `base` config — it will be `/glossary-grid/` in production and `/` in development. This is a single-line change.
+### Changes Summary
+1. **`src/pages/Index.tsx`** -- Replace grid with Carousel components, add dot indicators via carousel API, center the carousel vertically
+2. **`src/components/GlossaryCard.tsx`** -- Increase text sizes and padding for single-card display; set a fixed height so the card fills the carousel area nicely
 
