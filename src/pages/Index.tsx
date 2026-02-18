@@ -21,6 +21,8 @@ const Index = () => {
     if (flippedTerms.size === glossaryTerms.length && !completedRef.current) {
       completedRef.current = true;
       window.parent.postMessage({ type: 'complete' }, '*');
+      window.parent.postMessage({ action: 'completed' }, '*');
+      window.parent.postMessage('complete', '*');
     }
   }, [flippedTerms]);
 
