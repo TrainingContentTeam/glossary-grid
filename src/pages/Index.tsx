@@ -28,7 +28,7 @@ const Index = () => {
   const allDone = flippedTerms.size === glossaryTerms.length;
 
   return (
-    <main className="h-[800px] w-full bg-background p-4 md:p-5 flex flex-col overflow-hidden">
+    <main className="h-[720px] w-full bg-background p-4 md:p-5 flex flex-col overflow-hidden">
       <div className="w-full max-w-[1800px] mx-auto flex-1 min-h-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 h-full auto-rows-fr">
           {glossaryTerms.map((term) => (
