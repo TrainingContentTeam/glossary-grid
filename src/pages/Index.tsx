@@ -3,19 +3,9 @@ import { CheckCircle } from "lucide-react";
 import GlossaryCard from "@/components/GlossaryCard";
 import { glossaryTerms } from "@/data/glossaryTerms";
 import { Progress } from "@/components/ui/progress";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-  type CarouselApi,
-} from "@/components/ui/carousel";
 
 const Index = () => {
   const [flippedTerms, setFlippedTerms] = useState<Set<string>>(new Set());
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
   const completedRef = useRef(false);
 
   const handleFlip = useCallback((term: string) => {
@@ -28,12 +18,6 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => setCurrent(api.selectedScrollSnap()));
-  }, [api]);
-
-  useEffect(() => {
     if (flippedTerms.size === glossaryTerms.length && !completedRef.current) {
       completedRef.current = true;
       window.parent.postMessage({ type: 'complete' }, '*');
@@ -44,39 +28,19 @@ const Index = () => {
   const allDone = flippedTerms.size === glossaryTerms.length;
 
   return (
-    <main className="h-[720px] w-full bg-background flex flex-col overflow-hidden">
-      <div className="flex-1 flex items-center justify-center min-h-0 px-16">
-        <Carousel className="w-full max-w-2xl" setApi={setApi}>
-          <CarouselContent>
-            {glossaryTerms.map((term) => (
-              <CarouselItem key={term.term}>
-                <div className="h-[480px]">
-                  <GlossaryCard term={term} onFlip={handleFlip} />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="bg-popover border-border text-foreground shadow-sm hover:bg-muted" />
-          <CarouselNext className="bg-popover border-border text-foreground shadow-sm hover:bg-muted" />
-        </Carousel>
-      </div>
-
-      {/* Dot indicators */}
-      <div className="flex justify-center gap-2 pb-3">
-        {glossaryTerms.map((_, i) => (
-          <button
-            key={i}
-            className={`h-2.5 w-2.5 rounded-full transition-all ${
-              i === current ? "bg-primary scale-125" : "bg-muted-foreground/30"
-            }`}
-            onClick={() => api?.scrollTo(i)}
-            aria-label={`Go to card ${i + 1}`}
-          />
-        ))}
+    <main className="h-[700px] w-full bg-background flex flex-col overflow-hidden">
+      <div className="flex-1 flex items-center justify-center min-h-0 px-8 py-4">
+        <div className="grid grid-cols-3 gap-3 w-full max-w-4xl">
+          {glossaryTerms.map((term) => (
+            <div key={term.term} className="h-[180px]">
+              <GlossaryCard term={term} onFlip={handleFlip} />
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Progress bar */}
-      <div className="w-full max-w-2xl mx-auto px-4 pb-4 flex items-center gap-3">
+      <div className="w-full max-w-4xl mx-auto px-4 pb-4 flex items-center gap-3">
         <Progress value={progress} className="h-2 flex-1 bg-muted" />
         <span className="text-xs text-muted-foreground font-medium whitespace-nowrap flex items-center gap-1">
           {allDone ? (
