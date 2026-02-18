@@ -1,22 +1,25 @@
 
 
-# Update GitHub Pages Base Path
+# Fix White Screen on GitHub Pages
 
-## Change
+## Problem
+The app works in Lovable's preview but shows a white screen on GitHub Pages because `BrowserRouter` defaults to matching routes from `/`, while GitHub Pages serves from `/glossary-grid/`. The router can't find a matching route, so nothing renders.
 
-Replace the placeholder `REPO_NAME` in `vite.config.ts` with your actual repository name `glossary-grid`.
+## Solution
 
-### File: `vite.config.ts` (line 8)
+### File: `src/App.tsx`
+
+Add the `basename` prop to `BrowserRouter` so it knows about the `/glossary-grid/` subpath in production:
 
 **Before:**
-```
-base: mode === "production" ? "/REPO_NAME/" : "/",
+```tsx
+<BrowserRouter>
 ```
 
 **After:**
-```
-base: mode === "production" ? "/glossary-grid/" : "/",
+```tsx
+<BrowserRouter basename={import.meta.env.BASE_URL}>
 ```
 
-This single-line change ensures production builds reference assets from the correct `/glossary-grid/` subpath on GitHub Pages.
+`import.meta.env.BASE_URL` is automatically set by Vite from the `base` config — it will be `/glossary-grid/` in production and `/` in development. This is a single-line change.
 
