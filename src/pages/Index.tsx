@@ -56,8 +56,8 @@ const Index = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="bg-popover border-border text-foreground shadow-sm hover:bg-muted" />
+          <CarouselNext className="bg-popover border-border text-foreground shadow-sm hover:bg-muted" />
         </Carousel>
       </div>
 
